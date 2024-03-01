@@ -47,7 +47,9 @@ struct Node
  *   Pivot value
  *
  */
+
 void llpivot(Node *&head, Node *&smaller, Node *&larger, int pivot);
+void helper(Node *&head, Node *&smaller, Node *&larger, int pivot, Node*, Node*);//defining a helper function for llpivot recursion
 
 /**
  * Given a linked list pointed to by head, removes (filters out) nodes
@@ -83,8 +85,18 @@ Node* llfilter(Node* head, Comp pred)
     //*********************************************
     // Provide your implementation below
     //*********************************************
-
-
+    if(head==nullptr)//base case
+    {
+        return nullptr;
+    }
+    head->next=llfilter(head->next, pred);//recursing through the linked list
+    if(pred(head->val))//checking if the current node has to be filtered
+    {
+        Node* temp = head;
+        head = head->next;//updating head so as to filter out the current node
+        delete temp;//deleting the current node to avoid memory leaks
+    }
+    return head;
 }
 
 #endif
